@@ -8,6 +8,7 @@ config.json
 selfbot.sqlite
 *.heapsnapshot
 data/
+err.log
 
 # C/C++
 *.slo
