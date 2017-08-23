@@ -1,11 +1,15 @@
 const Discord = require("discord.js");
 exports.run = (client, msg, args) => {
-  msg.delete();
-  const embed = new Discord.MessageEmbed()
-    .setDescription(args.join(" "))
-    .setColor([114, 137, 218]);
-  msg.channel.send({embed});
+  var embedBuild;
+  
+  try {
+    embedBuild = JSON.parse(args.join(" "));
+  }catch(error) {
+    return msg.channel.send("``" + error.message + "``");
+  }
+  msg.channel.send({embed:embedBuild});
 };
+
 
 exports.conf = {
   enabled: true,
@@ -14,7 +18,7 @@ exports.conf = {
 };
 
 exports.help = {
-  name: 'embed',
-  description: 'Embeds some text.',
-  usage: '> Embed Text'
+  name: "embed",
+  description: "Embeds some text.",
+  usage: "> (description) OR > -title blah -description blah blah -color 111111 -footer blah"
 };

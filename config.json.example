@@ -1,9 +1,0 @@
-{
-  "botToken": "insert your bot token here between the double quotes",
-  "channels" : {
-    "logs": "If you want logs to appear in a discord channel, enter the ID here",
-    "mentions": "if you want mentions to appear in a channel, enter the channel ID here"
-  },
-  "password": "enter your discord password to change some things like Avatars or Username",
-  "prefix": "/"
-}

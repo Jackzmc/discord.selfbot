@@ -13,6 +13,7 @@ exports.run = async (client, msg, args) => {
   let data = null;
   
   switch(msg.flags[0]) {
+		  
     case ("add") :
       try{
         const channel =( extra[0] && extra[0]) == "here" ? msg.channel : client.channels.get(extra[0]);

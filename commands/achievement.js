@@ -10,7 +10,7 @@ exports.run = (client, msg, args) => {
   if(args.join(" ").toLowerCase().includes("cookie")) rnd = 21;
   if(args.join(" ").toLowerCase().includes("cake")) rnd = 10;
 
-  if(title.length > 22 || contents.length > 22) return msg.edit("Max Length: 22 Characters. Soz.").then(msg.delete.bind(msg), 2000);
+  if(title.length > 24 || contents.length > 24) return msg.edit("Max Length: 24 Characters. Soz.").then(msg.delete.bind(msg), 2000);
   const url = `https://www.minecraftskinstealer.com/achievement/a.php?i=${rnd}&h=${encodeURIComponent(title)}&t=${encodeURIComponent(contents)}`;
   snekfetch.get(url)
    .then(r=>msg.channel.send("", {files:[{attachment: r.body}]}));
@@ -21,7 +21,7 @@ exports.run = (client, msg, args) => {
 exports.conf = {
   enabled: true,
   guildOnly: false,
-  aliases: ["mca"]
+  aliases: ["mca","ach"]
 };
 
 exports.help = {

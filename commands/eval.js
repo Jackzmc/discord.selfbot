@@ -1,14 +1,16 @@
 const Discord = require("discord.js");
+const notifier = require('node-notifier');
 
 exports.run = async (client, msg, args) => {
+  msg.delete();
   const code = args.join(" ");
   try {
       const evaled = client.clean(await eval(code));
-      msg.channel.send(`\`\`\`xl\n${evaled}\n\`\`\``
-      );
+      msg.channel.send(`📥 INPUT\`\`\`${code}\`\`\`📤 OUTPUT\`\`\`xl\n${evaled}\n\`\`\``);
   }
   catch(err) {
-      msg.channel.send(`\`ERROR\` \`\`\`xl\n${client.clean(err)}\n\`\`\``);
+    msg.channel.send(`📥 INPUT\`\`\`${code}\`\`\`📤 OUTPUT\`\`\`xl\n${client.clean(err)}\n\`\`\``);
+    //msg.channel.send(`\`ERROR\` \`\`\`xl\n${client.clean(err)}\n\`\`\``);
   }
 };
 

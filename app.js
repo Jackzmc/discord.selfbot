@@ -8,6 +8,7 @@ const fs = require("fs");
 
 client.config = config;
 
+
 require("./modules/functions.js")(client);
 client.db = require("./modules/PersistentDB.js");
 

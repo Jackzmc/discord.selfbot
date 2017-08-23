@@ -1,5 +1,6 @@
 exports.run = async (client, msg, args) => {
-  // Insert Test Here
+	msg.delete();
+  	msg.channel.send(msg.guild.me.displayColor);
 };
 
 

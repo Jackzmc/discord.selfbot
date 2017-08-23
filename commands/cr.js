@@ -2,7 +2,7 @@ exports.run = (client, msg, args) => {
   if(!parseInt(args[0], 10)) {
     return msg.edit(`Please provide a number of messages to clean reactions from!`).then(setTimeout(msg.delete.bind(msg), 1000));
   }
-  if(!msg.guild.members.me.hasPermission("MANAGE_MESSAGES")) {
+  if(!msg.guild.me.hasPermission("MANAGE_MESSAGES")) {
     return msg.edit(`Oh hey idiot, how about doing this only if you have permissions to do so, eh?`).then(setTimeout(msg.delete.bind(msg), 1000));
   }
   msg.channel.fetchMessages({limit: parseInt(args[0], 10)}).then(msglog => {
