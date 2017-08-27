@@ -54,6 +54,9 @@ module.exports = (client) => {
         .replace(client.token, "mfa.VkO_2G4Qv3T--NO--lWetW_tjND--TOKEN--QFTm6YGtzq9PH--4U--tG0");
     return text;
   };
+	client.replaceAll = (item, search, replacement) => {
+		return item.split(search).join(replacement);
+	};
 
   process.on('uncaughtException', (err) => {
     let errorMsg = err.stack.replace(new RegExp(`${__dirname}\/`, 'g'), './');
