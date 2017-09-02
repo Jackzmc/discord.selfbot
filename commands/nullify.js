@@ -95,13 +95,13 @@ exports.faqList = [
 
 exports.run = async (client, msg, args) => {
 	msg.delete();
-  	if(args[0] === "faq") {
+	if(args[0] === "faq") {
 		if(args[1] === "list") {
 			return msg.channel.send('not ready');
 		}
 		var faqID = parseInt(args[1]) - 1;
 		if(!isNaN(faqID)){
-		    if(exports.faqList[faqID]) {
+			if(exports.faqList[faqID]) {
 				var faq = exports.faqList[faqID];
 				return msg.channel.send({embed: {
 					title:faq.title,
@@ -115,6 +115,14 @@ exports.run = async (client, msg, args) => {
 			return msg.channel.send("Unknown FAQ ID");
 		}
 		return msg.channel.send("Unknown FAQ id")
+	}else if(args[0] === "convert") {
+		msg.channel.send(`If you want to go from Steam-GTAV to Rockstar-GTA, do the following steps:
+1. Go to your Steam directory for Grand Theft Auto V (Program Files - Steam - steamapps - Common - Grand Theft Auto V)
+2. Make a new directory and copy the files from that (if you want to play steam edition ever without redownloading)
+2. Delete everything except the .rpf files and the folders. Delete x64a.rpf
+3. Download the Rockstar game client download (available via the Social Club website, click on the little gear beside your name and Game Downloads)
+4. Use the .exe you just downloaded to Repair the files.
+5. Launch with PlayGTAV.exe`)
 	}else if(args[0] === "whitelist" || args[0] === "wlist") {
 		var wListSearch = exports.antiviruses;
 		for(var i=0;i<wListSearch.length;i++) {

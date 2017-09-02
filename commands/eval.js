@@ -11,6 +11,8 @@ exports.run = async (client, msg, args) => {
       evaled = client.clean(evaled);
       if(msg.flags[0] !== "no-output" && msg.flags[0] !== "n") { //no output
         msg.channel.send(`📥 INPUT\`\`\`${code}\`\`\`📤 OUTPUT <${type}>\`\`\`xl\n${evaled}\n\`\`\``);
+      }else{
+        msg.channel.send(`📥 INPUT\`\`\`${code}\`\`\``);
       }
   }
   catch(err) {

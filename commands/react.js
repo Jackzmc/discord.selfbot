@@ -12,11 +12,12 @@ exports.run = (client, msg, args) => {
 			var counter = 0;
 			messages.forEach(message => {
 				message.clearReactions().catch(err => {
+					
 					//silent capture errors
 				})
 				counter++;
 			});
-			msg.channel.send(`Cleared ${counter} reactions`).then(m => m.delete(5000));
+			console.log(`Cleared ${counter} reactions`).then(m => m.delete(5000));
 		});
 	}
 	

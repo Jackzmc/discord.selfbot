@@ -11,5 +11,5 @@ module.exports = async client => {
     fs.unlink('./reboot.json', ()=>{});
   } catch(O_o){}
   await wait(1000);
-  client.log("log", "Bot Ready", client.user, `Ready to spy on ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} servers.`);
+  console.log(`\x1b[32m[READY] ${client.user.tag} Ready for ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} servers.\x1b[0m`);
 };

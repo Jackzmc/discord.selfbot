@@ -24,7 +24,7 @@ const user_lookup = (user, msg) => {
 
 
 	return msg.channel.send({embed: {
-		title:`${user.username}#${user.discriminator}'s stats ` + ((user.bot) ? '[BOT]':''),
+		title:`${user.tag}'s stats ` + ((user.bot) ? '[BOT]':''),
 		description:`ID: ${user.id}\n\n`,
 		color:`${((minfo)? minfo.displayColor:color)}`,
 		thumbnail:{url:user.avatarURL},

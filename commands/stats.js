@@ -37,7 +37,7 @@ exports.run = (client,msg,args) => {
 			}
 		],
 		footer:{
-			text:`${client.user.username}'s selfbot (using evie.selfbot c)`
+			text:`${client.user.username}'s selfbot (using evie.selfbot code)`
 		}
 
 	}});

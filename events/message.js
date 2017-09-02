@@ -5,17 +5,18 @@ const path = require('path');
 
 module.exports = async (client, message) => {
   if(message.mentions.users.has(client.user.id) || message.mentions.everyone || (message.guild && message.mentions.roles.filter(r=>message.guild.member(client.user.id).roles.has(r.id)).size > 0)) {
-    const chan = !!message.guild ? `${message.guild.name} #${message.channel.name}` : "";
-    client.log("mention", chan, message.author, message.cleanContent);
-	notifier.notify({
-	  title: `Mention in ${chan}`,
-	  subtitle: `By ${message.author}`,
-	  icon:'D:\Jackz\Pictures\Misc\Discord-Logo-Color.png',
-	  message: message.cleanContent,
-	  wait: false, // Wait for User Action against Notification or times out. Same as timeout = 5 seconds 
-	}, (error, response, metadata) => {
-	  if(error) console.error(error);
-	});
+    const chan = !!message.guild ? `\x1b[36m${message.guild.name}\x1b[0m in \x1b[36m#${message.channel.name}` : ""; //eslint-disable-line
+    const chan_clean = !!message.guild ? `${message.guild.name} in #${message.channel.name}` : ""; //eslint-disable-line
+    console.log(`[Mention] ${chan}\x1b[0m by \x1b[36m${message.author.tag}\x1b[0m\n${message.cleanContent}\x1b[0m`);
+    notifier.notify({
+      title: `Mention in ${chan_clean}`,
+      subtitle: `By ${message.author.tag}`,
+      icon:'D:\Jackz\Pictures\Misc\Discord-Logo-Color.png', //eslint-disable-line
+      message: message.cleanContent,
+      wait: false, // Wait for User Action against Notification or times out. Same as timeout = 5 seconds 
+      }, (error, response, metadata) => {
+      if(error) console.error(error);
+    });
   }
 
   if(message.author.id !== client.user.id) return;

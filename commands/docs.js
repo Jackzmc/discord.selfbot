@@ -247,7 +247,7 @@ exports.run = async (client, msg, args) => {
         await updateDocCache(usersPref).then(() => {
             return searchDocs(msg,usersPref,args[0]);
         });
-    }else return searchDocs(msg,usersPref,args[1]); //Cache doesn't need to be updated, just search
+    }else return searchDocs(msg,usersPref,args[0]); //Cache doesn't need to be updated, just search
 }
 
 exports.conf = {
