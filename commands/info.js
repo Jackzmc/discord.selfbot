@@ -11,19 +11,20 @@ const capFirst = (string) => {
 const user_lookup = (user, msg) => {
 	var member_info,
 		user_info;
-	if(msg.guild.members.has(user.id)) {
+
+	if(msg.guild && msg.guild.members.has(user.id)) {
 		var minfo = msg.guild.members.get(user.id);
 		member_info = `**Nickname:** ${((minfo.nickname) ? minfo.nickname : '*none*')}\n`
 		+ `**Joined:** ${moment(minfo.joinedAt).format('MMMM Do YYYY, h:mm a')}\n`
 		+ `**Roles: ** ${minfo.roles.array().join(', ')}`;
 	}else{
-		member_info = `${user.username} is not in this guild`;
+		member_info = (msg.guild) ? `Not a member of the guild somehow` : `${user.username} is not in this guild`;
 	}
 	user_info = `**Created:** ${moment(user.createdAt).format('MMMM Do YYYY, h:mm a')}\n`
 	+ `**Presence:** ${capFirst(user.presence.status)}` + ((user.presence.game) ? `, Playing \`\`${user.presence.game.name}\`\`` : '');
 
 
-	return msg.channel.send({embed: {
+	return msg.edit({embed: {
 		title:`${user.tag}'s stats ` + ((user.bot) ? '[BOT]':''),
 		description:`ID: ${user.id}\n\n`,
 		color:`${((minfo)? minfo.displayColor:color)}`,
@@ -51,7 +52,7 @@ const channel_lookup = (channel,msg) => {
 	}else if(channel.type === "voice") {
 		channel_info = `**Current Members:** ${channel.members.size}/${((channel.userLimit === 0) ? 'Infinity':channel.userLimit)}\n`
 	}
-	return msg.channel.send({embed: {
+	return msg.edit({embed: {
 		title:`${channel.name} (Index ${channel.position})`,
 		description:`ID: ${channel.id}\n\n`,
 		color:color,
@@ -86,7 +87,8 @@ const guild_lookup = (guild,msg) => {
 			continue;
 		}
 	}
-	return msg.channel.send({embed: {
+	const owner = (guild.owner) ? `${guild.owner.user.username}#${guild.owner.user.discriminator} (${guild.ownerID})` : `*some how none*`
+	return msg.edit({embed: {
 		title:`${guild.name}`,
 		description:`ID: ${guild.id}\n\n`,
 		thumbnail:{url:guild.iconURL},
@@ -97,14 +99,13 @@ const guild_lookup = (guild,msg) => {
 				value:`Created: ${moment(guild.createdAt).fromNow()} on ${moment(guild.createdAt).format('MMMM Do YYYY')}\n`
 				+ `Region: ${guild.region}\n`
 				+ `Verification Level: ${verification[guild.verificationLevel]}\n`
-				+ `Owner: ${guild.owner.user.username}#${guild.owner.user.discriminator} (${guild.ownerID})\n\n`
+				+ `Owner: ${owner}\n\n`
 			},
 			{
 				name:"❯ Channel & Member Info",
 				value:`${textchannels} are text, and ${voicechannels} voice. ${guild.channels.size} total\n`
-				+ `Default: ${guild.defaultChannel} \n`
 				+ `AFK Channel: ${((guild.afkChannelID) ? guild.channels.get(guild.afkChannelID).name : '*none*')}\n`
-				+ `${guild.members.size} members, ${guild.emojis.size} emojis`,
+				+ `${guild.memberCount} members, ${guild.emojis.size} emojis`,
 				inline:true
 			},
 			{
@@ -130,9 +131,9 @@ const role_lookup = (role,msg) => {
 			break;
 		}
 	}
-	roleMembers = list.join(", ");
+	var roleMembers = list.join(", ");
 
-	return msg.channel.send({embed: {
+	return msg.edit({embed: {
 		title:`${role.name} info (Index ${role.position})`,
 		description:`ID: ${role.id}\n\n`,
 		color:role.color,
@@ -157,9 +158,9 @@ const role_lookup = (role,msg) => {
 
 exports.run = (client,msg,args) => {
 	var input = msg.content.toLowerCase().replace(msg.content.toLowerCase().split(" ")[0] + " " + msg.content.toLowerCase().split(" ")[1] + " ","");
-	msg.delete();
 	
 	if(args[0] === "guild" || args[0] === "guild-info") {
+		if(!msg.guild) return msg.edit(`Cannot do guild info on a DM`);
 		if(!args[1]) return guild_lookup(msg.guild,msg);
 		var guildList = msg.guild.roles.array();
 		for(var i=0;i<guildList.length;i++) {
@@ -185,6 +186,7 @@ exports.run = (client,msg,args) => {
 		}
 		return msg.reply("Couldn't find anything for ``" + input + '``');
 	}else if(args[0] === "role" || args[0] === "role-info") {
+		if(!msg.guild) return msg.edit(`Cannot do role info on a DM`);
 		if(!args[1]) return role_lookup(msg.member.highestRole,msg)
 		var roleList = msg.guild.roles.array();
 		for(var i=0;i<roleList.length;i++) {
@@ -198,6 +200,7 @@ exports.run = (client,msg,args) => {
 		}
 		return msg.reply("Couldn't find anything for ``" + input + '``');
 	}else if(args[0] === "channel" || args[0] === "channel-info") {
+		if(!msg.guild) return msg.edit(`Cannot do channel info on a DM`);
 		if(!args[1]) return channel_lookup(msg.channel,msg);
 		var channelList = msg.guild.channels.array();
 		for(var i=0;i<channelList.length;i++) {
@@ -211,10 +214,8 @@ exports.run = (client,msg,args) => {
 		}
 		return msg.reply("Couldn't find anything for ``" + input + '``');
 	}else{
-		return msg.channel.send("❌ Invalid option! Valid Options are [guild] [user] [role] [channel]")
+		return msg.edit("❌ Invalid option! Valid Options are [guild] [user] [role] [channel]")
 	}
-	
-	return msg.reply("Couldn't find anything for ``" + input + '``');
 };
 
 exports.conf = {

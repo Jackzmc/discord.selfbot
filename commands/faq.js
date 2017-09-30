@@ -2,8 +2,16 @@ const nullify = require('./nullify.js').faqList;
 
 exports.run = async (client, msg, args) => {
 	msg.delete();
-	if(args[1] === "list") {
-		return msg.channel.send('not ready');
+	if(args[0] === "list") {
+		let faqs = "";
+		for(var i=0;i<nullify.length;i++) {
+			if(i==0) {
+				faqs = `(${i+1})${nullify[i].name}`;
+				continue;
+			}
+			faqs += `, (${i+1})${nullify[i].name}`;
+		}
+		return msg.channel.send(`There are ${nullify.length} faq's:\n${faqs}`);
 	}
 	var faqID = parseInt(args[0]) - 1;
 	if(!isNaN(faqID)){

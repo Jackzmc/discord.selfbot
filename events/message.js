@@ -18,11 +18,23 @@ module.exports = async (client, message) => {
       if(error) console.error(error);
     });
   }
-
+  const args = message.content.split(/ +/g);
   if(message.author.id !== client.user.id) return;
+  
+  /*if(/^http:\/\/jackz.xyz\//g.test(message.content)) { //if jackz.me and args[0], then change link to embed
+    const matches = (message.content.match(/http:\/\/jackz.xyz\//g) || []).length;
+    if(matches == 1) {
+      message.delete();
+      message.channel.send({embed:{
+        color:(message.guild) ? message.guild.me.displayColor : null,
+        image:{url:message.content}
+      }})
+    }
+  }*/
+  
+  
   if(message.content.indexOf(client.config.prefix) !== 0) return;
 
-  const args = message.content.split(/ +/g);
   const command = args.shift().slice(client.config.prefix.length).toLowerCase();
 
   const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
@@ -32,7 +44,5 @@ module.exports = async (client, message) => {
       message.flags.push(args.shift().slice(1));
     }
     cmd.run(client, message, args);
-  } else if(client.tags.has(command)) {
-    message.edit(`${args.join(" ")} ${client.tags.get(command).contents}`);
   }
 };

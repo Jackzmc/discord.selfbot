@@ -106,8 +106,8 @@ function searchDocs(msg,version,query) {
                     
         
                     Object.assign(outputData,defaultOutput); //merge defaultOutput object with outputData
-                    return msg.channel.send({embed: outputData}).catch(err => {
-                        msg.channel.send(`An error occurred while sending: \`\`${err.message}\`\``);
+                    return msg.edit({embed: outputData}).catch(err => {
+                        msg.edit(`An error occurred while sending: \`\`${err.message}\`\``);
                         console.log(err);
                     });
                 }
@@ -115,7 +115,7 @@ function searchDocs(msg,version,query) {
             }
            
         }
-        return msg.channel.send(`Couldn't find anything for \`\`${query[0]}${(query[1] ? `#${query[1]}`:'')}\`\``); //dont even know where to put this
+        return msg.edit(`Couldn't find anything for \`\`${query[0]}${(query[1] ? `#${query[1]}`:'')}\`\``); //dont even know where to put this
     }
     const cache = docsCache[version].data;
     //instead of looping object or something, just manually doing it 
@@ -138,8 +138,8 @@ function searchDocs(msg,version,query) {
                     fields:outputFields
                 }
                 Object.assign(outputData,defaultOutput); //merge defaultOutput object with outputData
-                return msg.channel.send({embed: outputData}).catch(err => {
-                    msg.channel.send(`An error occurred while sending: \`\`${err.message}\`\``);
+                return msg.edit({embed: outputData}).catch(err => {
+                    msg.edit(`An error occurred while sending: \`\`${err.message}\`\``);
                 });
             }
         }
@@ -163,8 +163,8 @@ function searchDocs(msg,version,query) {
                     fields:outputFields
                 }
                 Object.assign(outputData,defaultOutput); //merge defaultOutput object with outputData
-                return msg.channel.send({embed: outputData}).catch(err => {
-                    msg.channel.send(`An error occurred while sending: \`\`${err.message}\`\``);
+                return msg.edit({embed: outputData}).catch(err => {
+                    msg.edit(`An error occurred while sending: \`\`${err.message}\`\``);
                 })
             }
         }
@@ -189,14 +189,14 @@ function searchDocs(msg,version,query) {
                                     ]
                                 }
                                 Object.assign(outputData,defaultOutput); //merge defaultOutput object with outputData
-                                return msg.channel.send({embed: outputData}).catch(err => {
-                                    msg.channel.send(`An error occurred while sending: \`\`${err.message}\`\``);
+                                return msg.edit({embed: outputData}).catch(err => {
+                                    msg.edit(`An error occurred while sending: \`\`${err.message}\`\``);
                                 })
                             }
                         }
-                    }else return msg.channel.send(`There is no properties for \`\`${query[0]}\`\``);
+                    }else return msg.edit(`There is no properties for \`\`${query[0]}\`\``);
 
-                    return msg.channel.send(`Couldn't find anything for \`\`${query[0]}${(query[1] ? `#${query[1]}`:'')}\`\``);
+                    return msg.edit(`Couldn't find anything for \`\`${query[0]}${(query[1] ? `#${query[1]}`:'')}\`\``);
                 }  
                 var prop = cache.typedefs[i];
                 var outputFields = [];
@@ -210,20 +210,21 @@ function searchDocs(msg,version,query) {
                     fields:outputFields
                 }
                 Object.assign(outputData,defaultOutput); //merge defaultOutput object with outputData
-                return msg.channel.send({embed: outputData}).catch(err => {
-                    msg.channel.send(`An error occurred while sending: \`\`${err.message}\`\``);
+                return msg.edit({embed: outputData}).catch(err => {
+                    msg.edit(`An error occurred while sending: \`\`${err.message}\`\``);
                 })
             }
         }
     }
     
     
-    return msg.channel.send(`Couldn't find anything for \`\`${query[0]}${(query[1] ? `#${query[1]}`:'')}\`\``); 
-    //return msg.channel.send("Okay, looking for class ``" + searchQuerySub[0] + "`` and method ``" + searchQuerySub[1] + "``");
+    return msg.edit(`Couldn't find anything for \`\`${query[0]}${(query[1] ? `#${query[1]}`:'')}\`\``); 
+    //return msg.edit("Okay, looking for class ``" + searchQuerySub[0] + "`` and method ``" + searchQuerySub[1] + "``");
     
 }
 
 exports.run = async (client, msg, args) => {
+    if(!args[0]) return msg.edit(`**Discord.JS Links:**\nStable https://discord.js.org/#/docs/main/stable/general/welcome\nMaster https://discord.js.org/#/docs/main/master/general/welcome`)
     var usersPref = "stable";
     switch(args[1]) {
         case "master":
@@ -242,6 +243,7 @@ exports.run = async (client, msg, args) => {
             usersPref = "stable"
             break;
     }
+    
     var userDocLastUpdated = moment(docsCache[usersPref].lastUpdated); //storage usersPref for easier usage, and get the last updated cache
     if(moment().diff(userDocLastUpdated,'hours') > 2) { //If cache's last update was >2hrs ago, then update
         await updateDocCache(usersPref).then(() => {

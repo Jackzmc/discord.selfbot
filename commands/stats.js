@@ -1,17 +1,17 @@
-const Discord = require("discord.js");
-const os = require('os');
+const {version}= require("discord.js");
+const {platform} = require('os');
 const moment = require("moment");
 require("moment-duration-format");
 
 exports.run = (client,msg,args) => {
-	var botName = msg.guild.members.get(client.user.id).nickname;
+	var botName = (msg.guild) ? msg.guild.members.get(client.user.id).nickname : client.user.username;
 	moment.locale();
 	const uptime = moment.duration(client.uptime).format('d[ days], h[ hours], m[ minutes, and ]s[ seconds]');
 	const since = moment().format("MMM Do[,] Y [@] h:mm A [UTC]Z")
 
 	if(!botName) botName = client.user.username;
-	msg.channel.send({embed:{
-		color:msg.guild.me.displayColor,
+	msg.edit({embed:{
+		color:(msg.guild) ? msg.guild.me.displayColor : null,
 		fields:[
 			{
 				name:"❯ Uptime",
@@ -19,7 +19,7 @@ exports.run = (client,msg,args) => {
 			},
 			{
 				name:"❯ Usage Info",
-				value:`CPU one day...%\n` + `RAM ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB \n` + `OS ${os.platform().replace("win32","Windows").replace("linux","Linux")}`,
+				value:`CPU one day...%\n` + `RAM ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB \n` + `OS ${platform().replace("win32","Windows").replace("linux","Linux")}`,
 				inline:true
 			},
 			{
@@ -33,7 +33,7 @@ exports.run = (client,msg,args) => {
 				name:"❯ Miscellaneous",
 				value:`PING ${client.ping.toFixed(2)}ms\n`
 				+ `NODE ${process.version}\n`
-				+ `DISCORD.JS v${Discord.version}`
+				+ `DISCORD.JS v${version}`
 			}
 		],
 		footer:{

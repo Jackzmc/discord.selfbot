@@ -8,11 +8,11 @@ exports.run = (client, msg, args) => {
         const member = msg.mentions.members.array()[0]
         if(!member) return msg.channel.send("Couldn't find that user")
         const nickname = (member.nickname) ? member.nickname : member.user.username;
-        return msg.channel.send({embed:{title:`Avatar for ${nickname}`,color:member.displayColor,image:{url:member.user.displayAvatarURL({options:{size:2048}})}}});
+        return msg.channel.send({embed:{title:`Avatar for ${nickname}`,color:member.displayColor,image:{url:member.user.avatarURL}}});
     }else{
         const user = msg.mentions.users.array()[0];
         if(!user) return msg.channel.send("Could not find any user");
-        return msg.channel.send({embed:{title:`Avatar for ${user.username}`,image:{url:user.displayAvatarURL({options:{size:2048}})}}});
+        return msg.channel.send({embed:{title:`Avatar for ${user.username}`,image:{url:user.avatarURL}}});
     }
 };
 

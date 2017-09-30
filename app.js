@@ -1,5 +1,10 @@
-const Discord = require("discord.js");
-const client = new Discord.Client();
+const {Client,Collection}= require("discord.js");
+const client = new Client({
+  messageSweepInterval:120,
+  messageCacheLifetime:300,
+  disabledEvents:['TYPING_START','USER_UPDATE','VOICE_SERVER_UPDATE','CHANNEL_PINS_UPDATE','GUILD_CREATE','GUILD_DELETE','CHANNEL_UPDATE','GUILD_BAN_ADD', 'GUILD_BAN_REMOVE', 'CHANNEL_PINS_UPDATE',
+  'USER_NOTE_UPDATE', 'USER_SETTINGS_UPDATE', 'PRESENCE_UPDATE', 'VOICE_STATE_UPDATE','RELATIONSHIP_ADD', 'RELATIONSHIP_REMOVE']
+})
 
 if(process.version.slice(1).split(".")[0] < 8) throw new Error("Node 8.0.0 or higher is required. Update Node on your system. If you ask me 'why doesn't your selfbot work' and I see this error I will slap you silly.");
 
@@ -11,8 +16,8 @@ client.config = config;
 require("./modules/functions.js")(client);
 client.db = require("./modules/PersistentDB.js");
 
-client.commands = new Discord.Collection();
-client.aliases = new Discord.Collection();
+client.commands = new Collection();
+client.aliases = new Collection();
 
 fs.readdir('./commands/', (err, files) => {
   if (err) console.error(err);
