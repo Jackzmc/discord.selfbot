@@ -1,7 +1,6 @@
 const nullify = require('./nullify.js').faqList;
 
 exports.run = async (client, msg, args) => {
-	msg.delete();
 	if(args[0] === "list") {
 		let faqs = "";
 		for(var i=0;i<nullify.length;i++) {
@@ -11,13 +10,13 @@ exports.run = async (client, msg, args) => {
 			}
 			faqs += `, (${i+1})${nullify[i].name}`;
 		}
-		return msg.channel.send(`There are ${nullify.length} faq's:\n${faqs}`);
+		return msg.edit(`There are ${nullify.length} faq's:\n${faqs}`).then(m=>m.delete(15000))
 	}
 	var faqID = parseInt(args[0]) - 1;
 	if(!isNaN(faqID)){
 		if(nullify[faqID]) {
 			var faq = nullify[faqID];
-			return msg.channel.send({embed: {
+			return msg.edit({embed: {
 				title:faq.title,
 				description:faq.description,
 				footer:{text:faq.footer},
@@ -25,9 +24,9 @@ exports.run = async (client, msg, args) => {
 				image:{url:faq.image}
 			}});
 		}
-		return msg.channel.send("Unknown FAQ ID");
+		return msg.edit("Unknown FAQ ID").then(m=>m.delete(10000))
 	}
-	return msg.channel.send("Unknown FAQ id")
+	return msg.edit("Unknown FAQ id").then(m=>m.delete(10000))
 };
 
 exports.conf = {

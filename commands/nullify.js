@@ -68,7 +68,7 @@ exports.faqList = [
 	{
 		title:"11. Is there a way to change keybindings?",
 		name:"changekeybinds",
-		description:`Yes, you can change primary (numpad) and secondary controls.
+		description:stripIndents`Yes, you can change primary (numpad) and secondary controls.
 			Press Windows+R and type \`\`%appdata%\\Nullify\`\`, then edit **Nullify.ini.**`
 	},
 	{
@@ -86,7 +86,6 @@ exports.faqList = [
 ]
 
 exports.run = async (client, msg, args) => {
-	msg.delete();
 	if(args[0] === "faq") {
 		if(args[1] === "list") {
 			let faqs = "";
@@ -97,13 +96,13 @@ exports.run = async (client, msg, args) => {
 				}
 				faqs += `, (${i+1})${this.faqList[i].name}`;
 			}
-			return msg.channel.send(`There are ${this.faqList.length} faq's:\n${faqs}`);
+			return msg.edit(`There are ${this.faqList.length} faq's:\n${faqs}`).then(m=>m.delete(15000))
 		}
 		var faqID = parseInt(args[1]) - 1;
 		if(!isNaN(faqID)){
 			if(exports.faqList[faqID]) {
 				const faq = exports.faqList[faqID];
-				return msg.channel.send({embed: {
+				return msg.edit({embed: {
 					title:faq.title,
 					color:globalColor,
 					description:faq.description,
@@ -112,9 +111,9 @@ exports.run = async (client, msg, args) => {
 					image:{url:faq.image}
 				}});
 			}
-			return msg.channel.send("Unknown FAQ ID");
+			return msg.edit("Unknown FAQ ID").then(m=>m.delete(10000))
 		}
-		return msg.channel.send("Unknown FAQ id")
+		return msg.edit("Unknown FAQ id")
 	}else if(args[0] === "faqs") {
 		let faqs = "";
 		for(var i=0;i<this.faqList.length;i++) {
@@ -124,7 +123,7 @@ exports.run = async (client, msg, args) => {
 			}
 			faqs += `, (${i+1})${this.faqList[i].name}`;
 		}
-		return msg.channel.send(`There are ${this.faqList.length} faq's:\n${faqs}`);
+		return msg.edit(`There are ${this.faqList.length} faq's:\n${faqs}`).then(m=>m.delete(15000))
 	}else if(args[0] === "convert") {
 		msg.channel.send(stripIndents`If you want to go from Steam-GTAV to Rockstar-GTA, do the following steps:
 		1. Go to your Steam directory for Grand Theft Auto V (Program Files - Steam - steamapps - Common - Grand Theft Auto V)
@@ -134,7 +133,7 @@ exports.run = async (client, msg, args) => {
 		4. Use the .exe you just downloaded to Repair the files.
 		5. Launch with PlayGTAV.exe`)
 	}else{
-		msg.channel.send("Unknown option ``" + args[0] + "``");
+		msg.channel.send("Unknown option ``" + args[0] + "``").then(m=>m.delete(10000))
 	}
 };
 

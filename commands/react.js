@@ -30,11 +30,9 @@ exports.run = (client, msg, args) => {
 			var reactionQuery = args.join(" ").toLowerCase().split("");
 			console.log(reactionQuery.length)
 			async.eachOfSeries(reactionQuery, (result, i, callback) => {
-				console.log("check");
 				if(reactions[result]) {
 					let m = reactions[result];
 					try {
-						console.log("reacting: " + result);
 						t.react(m).then(() => callback()).catch(err => callback(err));
 					}catch(err) {
 						callback(err);

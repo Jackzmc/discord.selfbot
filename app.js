@@ -1,7 +1,7 @@
 const {Client,Collection}= require("discord.js");
 const client = new Client({
-  messageSweepInterval:120,
-  messageCacheLifetime:300,
+  messageSweepInterval:240,
+  messageCacheLifetime:1200,
   disabledEvents:['TYPING_START','USER_UPDATE','VOICE_SERVER_UPDATE','CHANNEL_PINS_UPDATE','GUILD_CREATE','GUILD_DELETE','CHANNEL_UPDATE','GUILD_BAN_ADD', 'GUILD_BAN_REMOVE', 'CHANNEL_PINS_UPDATE',
   'USER_NOTE_UPDATE', 'USER_SETTINGS_UPDATE', 'PRESENCE_UPDATE', 'VOICE_STATE_UPDATE','RELATIONSHIP_ADD', 'RELATIONSHIP_REMOVE']
 })

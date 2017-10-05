@@ -15,9 +15,6 @@ module.exports = async client => {
   console.log(`\x1b[32m[READY] ${client.user.tag} Ready for ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} servers.\x1b[0m`);
   /*const slot_chn = client.guilds.get('137389758228725761').channels.get('359066764811829248');
   setInterval(() => {
-    slot_chn.send(";slot 10,000,000");
-  },305000)
-  setInterval(() => {
-    slot_chn.send(";slot 1,000,000");
-  },30000)*/
+    slot_chn.send(";slots 10,000,000,000,000,000");
+  },3000)*/
 };
